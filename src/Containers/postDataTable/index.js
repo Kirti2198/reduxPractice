@@ -1,7 +1,6 @@
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addPost, editPost, getAllPosts} from "../../actions/posts";
-import {getPostsBulkFunc} from "../../actions/posts";
+import { addPostFunc} from "../../actions/posts";
 import PostDataTable from "../../Components/PostDataTable/PostDataTable";
 
 const mapStateToProps = state => {
@@ -14,10 +13,8 @@ const mapStateToProps = state => {
   
   const mapDispatchToProps = dispatch => {
     return {
-        getPostBulk: getPostsBulkFunc(dispatch),
-        getAllPosts: data => dispatch(getAllPosts(data)),
-        addPost: data => dispatch(addPost(data)),
-        editPost: data => dispatch(editPost(data)),
+        addPost: data =>  addPostFunc(dispatch,data),
+        // editPost: data => dispatch(editPost(data)),
     };
   };
   
