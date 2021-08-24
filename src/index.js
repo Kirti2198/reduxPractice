@@ -6,6 +6,7 @@ import {createStore} from 'redux'
 import store from "./store";
 import { BrowserRouter, Route } from "react-router-dom";
 import PostDataTable from "./Containers/postDataTable";
+import PostList from "./Containers/postList";
 
 // const store = createStore(
 //   reducer
@@ -15,7 +16,8 @@ import PostDataTable from "./Containers/postDataTable";
 ReactDOM.render(
   <Provider store={store}>
      <BrowserRouter>
-      <Route path="/" component={PostDataTable} />
+      <Route path="/" component={PostDataTable}  exact/>
+      <Route path="/lists" component={PostList} exact />
      </BrowserRouter>
   </Provider>,
   document.getElementById("root")

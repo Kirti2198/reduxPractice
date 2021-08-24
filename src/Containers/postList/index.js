@@ -2,16 +2,16 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addPost, editPost, getAllPosts} from "../../actions/posts";
 import {getPostsBulkFunc} from "../../actions/posts";
-import PostDataTable from "../../Components/PostDataTable/PostDataTable";
+import PostList from "../../Components/PostList/PostList";
 
 const mapStateToProps = state => {
     const { posts={} } = state;
-    //console.log("Postsssssss::::", posts);
+    console.log("Posts in container of PostList::::", posts);
     return {
       posts
     };
   };
-  
+
   const mapDispatchToProps = dispatch => {
     return {
         getPostBulk: getPostsBulkFunc(dispatch),
@@ -22,5 +22,5 @@ const mapStateToProps = state => {
   };
   
   export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(PostDataTable)
+    connect(mapStateToProps, mapDispatchToProps)(PostList)
   );
