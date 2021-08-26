@@ -9,6 +9,8 @@ import {
   ADD_POST,
   ADD_POST_SUCCESS,
   ADD_POST_FAIL,
+  EDIT_POSTS_BY_ID_SUCCESS,
+  EDIT_POSTS_BY_ID_FAIL,
 } from "../constants";
 const intialState = {
   data: [],
@@ -76,6 +78,27 @@ const posts = (state = intialState, action) => {
         },
       };
     case ADD_POST_FAIL:
+      return {
+        ...state,
+        addedPost: {
+          isLoading: false,
+          isCompleted: true,
+          error: action.payload,
+          data: false,
+        },
+      };
+    case EDIT_POSTS_BY_ID_SUCCESS:
+      //console.log("event captured:::::");
+      return {
+        ...state,
+        editedPost: {
+          isLoading: false,
+          isCompleted: true,
+          error: false,
+          data: action.payload,
+        },
+      };
+    case EDIT_POSTS_BY_ID_FAIL:
       return {
         ...state,
         addedPost: {

@@ -2,7 +2,6 @@ import { React, Component } from "react";
 import { Redirect, withRouter, Link } from "react-router-dom";
 import store from "../../store";
 import PostList from "../PostList/PostList";
-import { db } from "../../db";
 import { Container, TextField, Button } from "@material-ui/core";
 class PostDataTable extends Component {
   constructor(props) {
@@ -25,9 +24,16 @@ class PostDataTable extends Component {
   }
 
   async createPost(data) {
-    console.log(data);
+    console.log("Inside create Post data:::", data);
     const { addPost } = this.props;
     const response = await addPost(data);
+    console.log("Response::", response);
+    if(response){
+      this.handleAddData(data);
+      alert("Post Added Successfully");
+    } else {
+      alert("Error in Adding Post");
+    }
   }
 
   handleNewPost(event) {
@@ -56,6 +62,7 @@ class PostDataTable extends Component {
 
   render() {
     const { data = {} } = this.state;
+    const {editPost}= this.props;
     console.log("Data in Post Data Table Componenet:::::::", data);
     return (
       <div>
@@ -96,17 +103,25 @@ class PostDataTable extends Component {
               variant="outlined"
               color="primary"
               onClick={() => {
-                this.handleAddData({
+                this.createPost({
                   userId: 1,
                   title: this.state.newPost,
                   body: this.state.newPostData,
                 });
               }}
+
+              // onClick={() => {
+              //   this.handleAddData({
+              //     userId: 1,
+              //     title: this.state.newPost,
+              //     body: this.state.newPostData,
+              //   });
+              // }}
             >
               Add Post
             </Button>
           </div>
-          <PostList data={data} />
+          <PostList data={data} editPost={editPost}/>
         </Container>
       </div>
     );

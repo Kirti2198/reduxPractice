@@ -43,7 +43,8 @@ class PostList extends React.Component {
 
   render() {
     const { data = [] } = this.props;
-
+    console.log("Props 72636563478864726746872 =====>  Propsss", this.props);
+    const { editPost } = this.props;
     const dataKeys = Object.keys(data);
     const { updatePost } = this.state;
 
@@ -66,32 +67,34 @@ class PostList extends React.Component {
     //   dataBaseData[id].title = title;
     // };
 
-    const editPost = async (id, updatedPostData) => {
+    const handleEditPost = async (id) => {
       const title = prompt("Please enter edited title");
       this.setState({
         updatePost: true,
       });
+      if (title != "") {
+        data[id].title = title;
+      }
 
-      // localStorage.setItem(id, title);
-      if(title !=""){
-        data[id].title =title;
+      const newPostDescription = prompt(
+        "Please enter new description for the post"
+      );
+      if (newPostDescription != "") {
+        data[id].body = newPostDescription;
       }
-      
-      const newPostDescription = prompt("Please enter new description for the post");
-      if(newPostDescription !=""){
-        data[id].body =newPostDescription;
+
+      const updatedPostData = {
+        userId: 1,
+        id: id,
+        title: title,
+        body: newPostDescription,
+      };
+      const response=await editPost(id + 1, updatedPostData);
+      if(response){
+        alert("Post Edited Successfully");
       }
-      
-      // this.setState({
-      //   data: data,
-      // });
-      // editData(id,title);
     };
-    // if(dataBaseData ){
 
-    // }
-
-    // console.log("dataBaseDataKeys:::::", dataBaseDataKeys);
     return (
       <div>
         <TableContainer component={Paper}>
@@ -118,7 +121,7 @@ class PostList extends React.Component {
                     {" "}
                     <button
                       onClick={() => {
-                        editPost(idx, {
+                        handleEditPost(idx, {
                           userId: 1,
                           // title: "edited title",
                           // body: this.state.newPostData,

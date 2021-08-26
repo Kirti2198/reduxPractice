@@ -17,6 +17,7 @@ const mapStateToProps = state => {
     return {
       getPostBulk: getPostsBulkFunc(dispatch),
         addPost: data => dispatch(addPost(data)),
+        editPost: (id,data) => dispatch(editPost(id,data)),
     };
   };
   

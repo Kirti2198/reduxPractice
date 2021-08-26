@@ -63,6 +63,7 @@ export const addPost = (data) => {
       const response = await addPosts(data);
       const res = await response.json(data);
       console.log("Resss in addPost::", res);
+      
       dispatch({ type: ADD_POST_SUCCESS, payload: res });
       return res;
     } catch (e) {
