@@ -10,6 +10,10 @@ export const ADD_POST = "addpost";
 export const ADD_POST_SUCCESS = "addpostsuccess";
 export const ADD_POST_FAIL = "addpostfail";
 
+export const EDIT_POST = "editpost";
+export const EDIT_POST_SUCCESS = "editpostsuccess";
+export const EDIT_POST_FAIL = "editpostfail";
+
 export const EDIT_POSTS_BY_ID_REQUEST = "editpostsbyidrequest";
 export const EDIT_POSTS_BY_ID_SUCCESS = "editpostsbyidsuccess";
 export const EDIT_POSTS_BY_ID_FAIL = "editpostsbyidfail";

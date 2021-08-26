@@ -2,38 +2,165 @@ import React, { useState } from "react";
 import { render } from "react-dom";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
+import { addPost, editPost } from "../../actions/posts";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 // import { deleteTodo } from '../../actions';
 class PostList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       allPosts: [],
+      data: [],
+      updatePost: false,
     };
   }
 
+  useStyles = makeStyles({
+    table: {
+      minWidth: 650,
+    },
+  });
+
   async componentDidMount() {
-    //console.log("Props in PostData:::::", this.props);
-    const { getPostBulk } = this.props;
-    console.log("Props in PostList:::::::", this.props);
-    const response = await getPostBulk();
+    let { data = [] } = this.props || {};
     this.setState({
-      allPosts: response,
+      data,
     });
-    const { posts: { byBulk: { data = [] } = {} } = {} } = this.props || {};
-    console.log("Data:::", data);
   }
 
+  handleAddData = (newData) => {
+    const data = [...this.state.data];
+    data.concat(newData);
+    this.setState({ data });
+  };
+
   render() {
-    const { posts: { byBulk: { data = [] } = {} } = {} } = this.props || {};
-    const {allPosts=[]}= this.state;
-    // const {allPosts=[]}=this.state;
-    console.log("Dataa::::::", data);
+    const { data = [] } = this.props;
+
+    const dataKeys = Object.keys(data);
+    const { updatePost } = this.state;
+
+    let db = {
+      ...data,
+    };
+
+    // const saveDataIntoDB = () => {
+    //   let databaseData = JSON.stringify(db);
+    //   console.log("databasedata::::  saveDataIntoDB ", databaseData);
+    //   localStorage.setItem("db", databaseData);
+    // };
+    // saveDataIntoDB();
+
+    // let dataBaseData = {};
+    // const editData = (id, title) => {
+    //   dataBaseData = JSON.parse(localStorage.getItem("db"));
+    //   dataBaseData = JSON.stringify(dataBaseData);
+
+    //   dataBaseData[id].title = title;
+    // };
+
+    const editPost = async (id, updatedPostData) => {
+      const title = prompt("Please enter edited title");
+      this.setState({
+        updatePost: true,
+      });
+
+      // localStorage.setItem(id, title);
+      if(title !=""){
+        data[id].title =title;
+      }
+      
+      const newPostDescription = prompt("Please enter new description for the post");
+      if(newPostDescription !=""){
+        data[id].body =newPostDescription;
+      }
+      
+      // this.setState({
+      //   data: data,
+      // });
+      // editData(id,title);
+    };
+    // if(dataBaseData ){
+
+    // }
+
+    // console.log("dataBaseDataKeys:::::", dataBaseDataKeys);
     return (
       <div>
-
-        {allPosts.map(function (d, idx) {
-          return <li key={idx}>{d.title}</li>;
-        })}
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell align="center">Title Of Post</TableCell>
+                <TableCell align="center">UserId</TableCell>
+                <TableCell align="center">Description</TableCell>
+                {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dataKeys.map((d, idx) => (
+                <TableRow key={idx}>
+                  <TableCell component="th" scope="row">
+                    {idx + 1}
+                  </TableCell>
+                  <TableCell align="center">{data[d].title}</TableCell>
+                  <TableCell align="center">{data[d].userId}</TableCell>
+                  <TableCell align="center">{data[d].body}</TableCell>
+                  <TableCell align="right">
+                    {" "}
+                    <button
+                      onClick={() => {
+                        editPost(idx, {
+                          userId: 1,
+                          // title: "edited title",
+                          // body: this.state.newPostData,
+                        });
+                      }}
+                    >
+                      Edit Post
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {/* {dataKeys &&
+          dataKeys.map(function (d, idx) {
+            return (
+              <div>
+                <br></br>
+                <div>
+                  {" "}
+                  <div>
+                    {idx + 1}
+                    <li key={idx} style={{ "list-style-type": "none" }}>
+                      {data[d].title}
+                    </li>
+                  </div>
+                  <button
+                    onClick={() => {
+                      editPost(idx, {
+                        userId: 1,
+                        // title: "edited title",
+                        // body: this.state.newPostData,
+                      });
+                    }}
+                  >
+                    Edit Post
+                  </button>
+                </div>
+              </div>
+            );
+          })} */}
       </div>
     );
   }
